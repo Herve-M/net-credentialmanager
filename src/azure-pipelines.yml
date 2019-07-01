@@ -22,7 +22,7 @@ pool:
 
 variables:
   solution: '$(Build.SourcesDirectory)/src/*.sln'
-  project: '$(Build.SourcesDirectory)/src/*.csproj'
+  project: '$(Build.SourcesDirectory)/src/**/*.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
