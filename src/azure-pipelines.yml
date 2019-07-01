@@ -22,12 +22,16 @@ pool:
 
 variables:
   solution: '$(Build.SourcesDirectory)/src/*.sln'
+  project: '$(Build.SourcesDirectory)/src/*.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
 - task: DotNetCoreCLI@2
   displayName: "Restore"
+  inputs:
+    command: restore
+    projects: '$(project)'
 
 - task: DotNetCoreCLI@2
   displayName: Build - Abstraction
