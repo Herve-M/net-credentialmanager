@@ -1,0 +1,44 @@
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+    exclude:
+    - feature/*
+    - fix/*
+
+pr:
+  branches:
+    include:
+    - develop/*
+    exclude:
+    - features/experimental/*
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  solution: '$(Build.SourcesDirectory)/src/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: "Restore"
+
+- task: DotNetCoreCLI@2
+  displayName: Build - Abstraction
+  inputs:
+    command: build
+    projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: Build - Manager
+  inputs:
+    command: build
+    projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
