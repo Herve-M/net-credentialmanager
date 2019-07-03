@@ -35,21 +35,27 @@ steps:
     includePreviewVersions: true
 
 - task: DotNetCoreCLI@2
-  displayName: "Restore"
+  displayName: 'Restore'
   inputs:
     command: restore
     projects: '$(project)'
 
 - task: DotNetCoreCLI@2
-  displayName: Build - Abstraction
+  displayName: 'Build - Abstraction'
   inputs:
     command: build
     projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
-    arguments: '--no-restore --configuration $(buildConfiguration)'
+    arguments: '--no-restore --no-logo --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
 
 - task: DotNetCoreCLI@2
-  displayName: Build - Manager
+  displayName: 'Build - Manager'
   inputs:
     command: build
     projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
-    arguments: '--no-restore --configuration $(buildConfiguration)'
+    arguments: '--no-restore --no-logo --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publishing artifact'
+  inputs:
+    artifactName: 'CM-build' 
+    targetPath: '$(Build.StagingDirectory)'
