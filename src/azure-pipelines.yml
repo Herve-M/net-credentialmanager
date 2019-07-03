@@ -39,6 +39,7 @@ steps:
   inputs:
     command: restore
     projects: '$(project)'
+    verbosityRestore: 'normal'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build - Abstraction'
