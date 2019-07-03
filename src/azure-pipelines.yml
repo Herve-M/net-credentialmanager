@@ -45,14 +45,14 @@ steps:
   inputs:
     command: build
     projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
-    arguments: '--no-restore --no-logo --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
+    arguments: '--no-restore --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build - Manager'
   inputs:
     command: build
     projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
-    arguments: '--no-restore --no-logo --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
+    arguments: '--no-restore --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publishing artifact'
