@@ -37,26 +37,34 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Restore'
   inputs:
-    command: restore
+    command: 'restore'
     projects: '$(project)'
     verbosityRestore: 'normal'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build - Abstraction'
   inputs:
-    command: build
+    command: 'build'
     projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
-    arguments: '--no-restore --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build - Manager'
   inputs:
-    command: build
+    command: 'build'
     projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
-    arguments: '--no-restore --configuration $(buildConfiguration) --output $(Build.StagingDirectory)'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
 
-- task: PublishPipelineArtifact@0
-  displayName: 'Publishing artifact'
+- task: DotNetCoreCLI@2
+  displayName: 'Pack - Abstraction'
   inputs:
-    artifactName: 'CM-build' 
-    targetPath: '$(Build.StagingDirectory)'
+    command: 'pack'
+    projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
+    arguments: '--no-build --no-restore --include-symbols --include-source'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack - Manager'
+  inputs:
+    command: 'pack'
+    projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
+    arguments: '--no-build --no-restore'
