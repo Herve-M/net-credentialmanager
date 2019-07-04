@@ -60,11 +60,17 @@ steps:
   inputs:
     command: 'pack'
     projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
-    arguments: '--no-build --no-restore --include-symbols --include-source'
-
+    #arguments: '--no-build --no-restore --include-symbols --include-source'
+    includesymbols: true
+    includesource: true
+    nobuild: true
+    verbosityRestore: 'normal'
+    
 - task: DotNetCoreCLI@2
   displayName: 'Pack - Manager'
   inputs:
     command: 'pack'
     projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
-    arguments: '--no-build --no-restore'
+    #arguments: '--no-build --no-restore'
+    nobuild: true
+    verbosityRestore: 'normal'
