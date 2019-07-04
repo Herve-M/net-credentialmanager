@@ -53,7 +53,6 @@ steps:
   inputs:
     command: 'pack'
     projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
-    #arguments: '--configuration $(buildConfiguration) --no-build --no-restore --include-symbols --include-source --output $(Build.StagingDirectory)'
     includesymbols: true
     includesource: true
     nobuild: true
@@ -65,7 +64,6 @@ steps:
   inputs:
     command: 'pack'
     projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
-    #arguments: '--configuration $(buildConfiguration) --no-build --no-restore --output $(Build.StagingDirectory)'
     nobuild: true
     verbosityPack: 'normal'
     outputDir: '$(Build.StagingDirectory)'
