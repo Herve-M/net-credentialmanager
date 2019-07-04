@@ -59,18 +59,18 @@ steps:
   displayName: 'Pack - Abstraction'
   inputs:
     command: 'pack'
-    projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
-    #arguments: '--no-build --no-restore --include-symbols --include-source'
-    includesymbols: true
-    includesource: true
+    projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'    
     nobuild: true
-    verbosityRestore: 'normal'
+    verbosityPack: 'normal'
+    configurationToPack: '$(buildConfiguration)'
     
 - task: DotNetCoreCLI@2
   displayName: 'Pack - Manager'
   inputs:
     command: 'pack'
-    projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
-    #arguments: '--no-build --no-restore'
+    projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
     nobuild: true
-    verbosityRestore: 'normal'
+    includesymbols: true
+    includesource: true
+    verbosityPack: 'normal'
+    configurationToPack: '$(buildConfiguration)'
