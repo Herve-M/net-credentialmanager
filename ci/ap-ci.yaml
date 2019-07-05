@@ -1,6 +1,8 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
 
+name: 'CM-CI' 
+
 trigger:
   branches:
     include:
@@ -61,6 +63,7 @@ steps:
     command: 'pack'
     searchPatternPack: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'    
     nobuild: true
+    includesymbols: true
     verbosityPack: 'normal'
     configurationToPack: '$(buildConfiguration)'
     

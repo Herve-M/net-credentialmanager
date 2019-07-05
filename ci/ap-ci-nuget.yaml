@@ -1,6 +1,8 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
 
+name: 'CM-CI-Nuget' 
+
 trigger:
   branches:
     include:
@@ -9,6 +11,11 @@ trigger:
     exclude:
     - feature/*
     - fix/*
+  paths:
+    include:
+    - 'src/**/*'
+    exclude:
+    - '*'
 
 pr:
   branches:
