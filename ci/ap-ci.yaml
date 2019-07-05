@@ -20,7 +20,7 @@ pr:
     - 'feature/*'
     - 'fix/*'
     - 'experimental/*'
-   paths:
+  paths:
     include:
     - 'src/'
     - 'ci/'
