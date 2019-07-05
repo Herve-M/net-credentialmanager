@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -11,8 +11,13 @@
     <PackageId>NetCredentialManager</PackageId>
     <Authors>Herve-M</Authors>
     <RepositoryUrl>https://github.com/Herve-M/net-credentialmanager/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/Herve-M/net-credentialmanager/</PackageProjectUrl>
     <Version>19.0.0</Version>
+    <IncludeSource>true</IncludeSource>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,4 +33,8 @@
     <Folder Include="Exceptions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="$(PackageLicenseFile)" />
+  </ItemGroup>
+ 
 </Project>

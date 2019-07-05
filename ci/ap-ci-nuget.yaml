@@ -1,0 +1,84 @@
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+
+name: 'CM-CI-Nuget' 
+
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+    exclude:
+    - 'feature/*'
+    - 'fix/*'
+  paths:
+    include:
+    - 'src/*'
+    exclude:
+    - '/'
+
+pr:
+  branches:
+    include:
+    - develop
+    exclude:
+    - 'features/*'
+    - 'fix/*'
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  solution: '$(Build.SourcesDirectory)/src/*.sln'
+  project: '$(Build.SourcesDirectory)/src/**/*.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Setup .NET Core SDK'
+  inputs:
+    packageType: sdk
+    version: 3.x
+    includePreviewVersions: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore'
+  inputs:
+    command: restore
+    projects: '$(project)'
+    verbosityRestore: 'normal'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build'
+  inputs:
+    command: build
+    projects: '$(solution)'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack - Manager'
+  inputs:
+    command: 'pack'
+    searchPatternPack: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
+    includesymbols: true
+    includesource: true
+    nobuild: true
+    verbosityPack: 'normal'
+    outputDir: '$(Build.StagingDirectory)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack - Abstraction'
+  inputs:
+    command: 'pack'
+    searchPatternPack: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
+    nobuild: true
+    verbosityPack: 'normal'
+    outputDir: '$(Build.StagingDirectory)'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publishing artifact'
+  inputs:
+    artifactName: 'CM-build' 
+    targetPath: '$(Build.StagingDirectory)'
+    

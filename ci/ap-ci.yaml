@@ -1,0 +1,87 @@
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+
+name: 'CM-CI' 
+
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+    exclude:
+    - 'feature/*'
+    - 'fix/*'
+
+pr:
+  branches:
+    include:
+    - develop
+    exclude:
+    - 'feature/*'
+    - 'fix/*'
+    - 'experimental/*'
+  paths:
+    include:
+    - 'src/'
+    - 'ci/'
+    exclude:
+    - '/'
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  solution: '$(Build.SourcesDirectory)/src/*.sln'
+  project: '$(Build.SourcesDirectory)/src/**/*.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Setup .NET Core SDK'
+  inputs:
+    packageType: sdk
+    version: 3.x
+    includePreviewVersions: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore'
+  inputs:
+    command: 'restore'
+    projects: '$(project)'
+    verbosityRestore: 'normal'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build - Abstraction'
+  inputs:
+    command: 'build'
+    projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build - Manager'
+  inputs:
+    command: 'build'
+    projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack - Abstraction'
+  inputs:
+    command: 'pack'
+    searchPatternPack: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'    
+    nobuild: true
+    includesymbols: true
+    verbosityPack: 'normal'
+    configurationToPack: '$(buildConfiguration)'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Pack - Manager'
+  inputs:
+    command: 'pack'
+    searchPatternPack: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
+    nobuild: true
+    includesymbols: true
+    includesource: true
+    verbosityPack: 'normal'
+    configurationToPack: '$(buildConfiguration)'

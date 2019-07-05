@@ -10,12 +10,19 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>NetCredentialManager.Abstractions</PackageId>
     <PackageProjectUrl>https://github.com/Herve-M/net-credentialmanager/</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Herve-M/net-credentialmanager/</RepositoryUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE-MIT" Pack="true" PackagePath="$(PackageLicenseFile)" />
+  </ItemGroup>
 
 </Project>
