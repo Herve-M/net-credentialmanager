@@ -52,7 +52,7 @@ steps:
   displayName: 'Pack - Manager'
   inputs:
     command: 'pack'
-    projects: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
+    searchPatternPack: '$(Build.SourcesDirectory)/src/CM/CM.csproj'
     includesymbols: true
     includesource: true
     nobuild: true
@@ -63,7 +63,7 @@ steps:
   displayName: 'Pack - Abstraction'
   inputs:
     command: 'pack'
-    projects: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
+    searchPatternPack: '$(Build.SourcesDirectory)/src/CM.Abstractions/CM.Abstractions.csproj'
     nobuild: true
     verbosityPack: 'normal'
     outputDir: '$(Build.StagingDirectory)'
