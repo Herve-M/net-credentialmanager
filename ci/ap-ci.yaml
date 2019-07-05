@@ -9,15 +9,23 @@ trigger:
     - master
     - develop
     exclude:
-    - feature/*
-    - fix/*
+    - 'feature/*'
+    - 'fix/*'
 
 pr:
   branches:
     include:
-    - develop/*
+    - develop
     exclude:
-    - features/experimental/*
+    - 'feature/*'
+    - 'fix/*'
+    - 'experimental/*'
+   paths:
+    include:
+    - 'src/'
+    - 'ci/'
+    exclude:
+    - '/'
 
 pool:
   vmImage: 'windows-2019'
