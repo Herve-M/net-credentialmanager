@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
-    <PackageReference Include="Vanara.PInvoke.Security" Version="2.3.11" />
+    <PackageReference Include="Vanara.PInvoke.Security" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
